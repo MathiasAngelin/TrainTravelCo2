@@ -10,7 +10,7 @@ namespace TrainTravelCo.Data
     public class DataStore
     {
         private static DataStore _instance;
-        private string pathString = @"C:\Users\Mathias\Source\Repos\oop-exercises\TrainTravelCo\TrainTravelCo\Data\Traindata";
+        private string pathString = @"C:\Users\Mathias\Source\Repos\TrainTravel 2.0\TrainTravelCo\Data\Traindata";
 
         public static DataStore Instance
         {
@@ -99,7 +99,7 @@ namespace TrainTravelCo.Data
             var regToSave = train.RegNumber;
             var seatsToSave = train.MaxSeats;
 
-            using (FileStream fs = File.Create($"{pathString}train_{trainIdToSave}.txt"))
+            using (FileStream fs = File.Create($"{pathString}\\train_{trainIdToSave}.txt"))
             {
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
