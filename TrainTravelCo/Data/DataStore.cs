@@ -46,22 +46,22 @@ namespace TrainTravelCo.Data
             SaveTrain(train4);
             Trip trip1 = new Trip()
             {
-                From = "A",
-                To = "B",
+                From = "Lund",
+                To = "Stockholm",
                 Time = "2021-01-01",
                 Train = train1
             };
             Trip trip2 = new Trip()
             {
-                From = "A",
-                To = "C",
-                Time = "2021-11-01",
+                From = "Arvika",
+                To = "Goteborg",
+                Time = "2021-11-04",
                 Train = train1
             };
             Trip trip3 = new Trip()
             {
-                From = "B",
-                To = "C",
+                From = "Malmo",
+                To = "Motala",
                 Time = "2021-01-07",
                 Train = train2
             };
@@ -116,6 +116,30 @@ namespace TrainTravelCo.Data
         public void SaveTrip(Trip trip)
         {
             _trips.Add(trip);
+            var tripIDToSave = trip.Id;
+            var trainFrom = trip.From;
+            var trainTo = trip.To;
+            var tripTime = trip.Time;
+            var TrainId = trip.Train.Id;
+            var tripBookings = trip.Bookings;
+            
+
+            using (FileStream fs = File.Create($"{pathString}\\trip_{tripIDToSave}.txt"))
+            {
+                using (StreamWriter sr = new StreamWriter(fs))
+            {
+                sr.WriteLine($"{TrainId}\n{trainFrom}\n{trainTo}\n{tripTime}\n{tripBookings.Count}");
+
+                    for (int i = 0; i < tripBookings.Count; i++)
+                   
+                {
+                    sr.WriteLine($"{tripBookings[i].Customer.Name}\n");
+                }
+            }
+            }
+
+
+
         }
     }
 }
