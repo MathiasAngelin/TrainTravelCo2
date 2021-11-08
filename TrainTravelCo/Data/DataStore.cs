@@ -10,7 +10,7 @@ namespace TrainTravelCo.Data
     public class DataStore
     {
         private static DataStore _instance;
-        private string pathString = @"C:\Users\Mathias\Source\Repos\TrainTravel 2.0\TrainTravelCo\Data\Traindata";
+        private string pathString = @"C:\Users\Mathi\Source\Repos\TrainTravel 2.0\TrainTravelCo\Data\Traindata";
 
         public static DataStore Instance
         {
@@ -26,8 +26,6 @@ namespace TrainTravelCo.Data
 
         private List<Train> _trains;
         private List<Trip> _trips;
-
-      
 
         private DataStore()
         {
@@ -73,10 +71,6 @@ namespace TrainTravelCo.Data
         public List<Train> ListTrains()
         {
             string[] listofFiles = (Directory.GetFiles(pathString));
-            for (int i = 0; i < listofFiles.Length; i++)
-            {
-                listofFiles[i] = Path.GetFileName(listofFiles[i]);
-            }
             foreach (var files in listofFiles)
             {
                 if (files.StartsWith("train_"))
@@ -95,15 +89,11 @@ namespace TrainTravelCo.Data
         public void SaveTrain(Train train)
         {
             _trains.Add(train);
-            var trainIdToSave = train.Id;
-            var regToSave = train.RegNumber;
-            var seatsToSave = train.MaxSeats;
-
-            using (FileStream fs = File.Create($"{pathString}\\train_{trainIdToSave}.txt"))
+            using (FileStream fs = File.Create($"{pathString}\\train_{train.Id}.txt"))
             {
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    sw.WriteLine($"{trainIdToSave}\n{regToSave}\n{seatsToSave}");
+                    sw.WriteLine($"{train.Id}\n{train.RegNumber}\n{train.MaxSeats}");
                 }
             }
         }
@@ -116,30 +106,19 @@ namespace TrainTravelCo.Data
         public void SaveTrip(Trip trip)
         {
             _trips.Add(trip);
-            var tripIDToSave = trip.Id;
-            var trainFrom = trip.From;
-            var trainTo = trip.To;
-            var tripTime = trip.Time;
-            var TrainId = trip.Train.Id;
-            var tripBookings = trip.Bookings;
-            
-
-            using (FileStream fs = File.Create($"{pathString}\\trip_{tripIDToSave}.txt"))
+            using (FileStream fs = File.Create($"{pathString}\\trip_{trip.Id}.txt"))
             {
                 using (StreamWriter sr = new StreamWriter(fs))
-            {
-                sr.WriteLine($"{TrainId}\n{trainFrom}\n{trainTo}\n{tripTime}\n{tripBookings.Count}");
-
-                    for (int i = 0; i < tripBookings.Count; i++)
-                   
                 {
-                    sr.WriteLine($"{tripBookings[i].Customer.Name}\n");
+                    sr.WriteLine($"{trip.Id}\n{trip.From}\n{trip.To}\n{trip.Time}\n{trip.Bookings.Count}");
+
+                    foreach (var booking in trip.Bookings)
+                    {
+                        sr.WriteLine(booking.Customer.Name);
+                        sr.WriteLine(booking.Customer.Phone);
+                    }
                 }
             }
-            }
-
-
-
         }
     }
 }

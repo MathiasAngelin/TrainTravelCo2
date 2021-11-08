@@ -21,6 +21,5 @@ namespace TrainTravelCo.Models
             Id = _idCounter++;
             Bookings = new List<Booking>();
         }
-
     }
 }
